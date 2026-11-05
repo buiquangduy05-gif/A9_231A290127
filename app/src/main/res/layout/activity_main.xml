@@ -54,6 +54,17 @@
         android:textSize="12sp"
         android:textStyle="italic" />
 
+    <TextView
+        android:id="@+id/tvThongKe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="#F0F0F0"
+        android:padding="8dp"
+        android:textColor="#222222"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
     <ListView
         android:id="@+id/lvMonAn"
         android:layout_width="match_parent"

@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private MonAnAdapter adapter;
 
     private ListView lvMonAn;
-    private TextView tvTrong;
+    private TextView tvTrong, tvThongKe;
     private EditText edtTen, edtGia;
 
     @Override
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         lvMonAn = findViewById(R.id.lvMonAn);
         tvTrong = findViewById(R.id.tvTrong);
+        tvThongKe = findViewById(R.id.tvThongKe);
         edtTen = findViewById(R.id.edtTen);
         edtGia = findViewById(R.id.edtGia);
         Button btnThem = findViewById(R.id.btnThem);
@@ -62,12 +63,15 @@ public class MainActivity extends AppCompatActivity {
         lvMonAn.setOnItemLongClickListener((parent, view, position, id) -> {
             MonAn mon = danhSach.remove(position);
             adapter.notifyDataSetChanged();
+            capNhatThongKe(); // NC4: Cập nhật thống kê sau khi xóa món
             Toast.makeText(this,
                     getString(R.string.da_xoa, mon.getTen()), Toast.LENGTH_SHORT).show();
             return true;
         });
 
         btnThem.setOnClickListener(v -> themMon());
+
+        capNhatThongKe(); // NC4: Khởi tạo thống kê ban đầu
     }
 
     private void taoDuLieuMau() {
@@ -103,10 +107,24 @@ public class MainActivity extends AppCompatActivity {
 
         danhSach.add(0, new MonAn(ten, getString(R.string.moi_them), gia, R.drawable.mon1));
         adapter.notifyDataSetChanged();
+        capNhatThongKe(); // NC4: Cập nhật thống kê sau khi thêm món
         lvMonAn.smoothScrollToPosition(0);
 
         edtTen.setText("");
         edtGia.setText("");
         edtTen.requestFocus();
+    }
+
+    /**
+     * NC4: Hiện tổng số món và tổng giá trị thực đơn.
+     * Gọi sau mỗi lần thêm hoặc xóa món.
+     */
+    private void capNhatThongKe() {
+        int tongSoMon = danhSach.size();
+        int tongGiaTri = 0;
+        for (MonAn mon : danhSach) {
+            tongGiaTri += mon.getGia();
+        }
+        tvThongKe.setText(getString(R.string.thong_ke, tongSoMon, MonAn.dinhDangGia(tongGiaTri)));
     }
 }
