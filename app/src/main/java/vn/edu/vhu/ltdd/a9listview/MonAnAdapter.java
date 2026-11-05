@@ -1,6 +1,7 @@
 package vn.edu.vhu.ltdd.a9listview;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ public class MonAnAdapter extends BaseAdapter {
         ImageView imgAnh;
         TextView tvTen, tvMoTa, tvGia;
     }
+
+    private static final int GIA_NGUONG = 45000;
 
     private final Context context;
     private final List<MonAn> danhSach;
@@ -56,6 +59,13 @@ public class MonAnAdapter extends BaseAdapter {
         holder.tvTen.setText(mon.getTen());
         holder.tvMoTa.setText(mon.getMoTa());
         holder.tvGia.setText(MonAn.dinhDangGia(mon.getGia()));
+
+        // NC2: Dòng có giá trên 45.000 đ thì nền đổi màu nhạt
+        if (mon.getGia() > GIA_NGUONG) {
+            convertView.setBackgroundColor(Color.parseColor("#FFF3CD")); // Nền vàng nhạt
+        } else {
+            convertView.setBackgroundColor(Color.TRANSPARENT); // Gán màu mặc định tránh dính màu khi cuộn
+        }
 
         return convertView;
     }
